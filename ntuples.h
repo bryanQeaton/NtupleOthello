@@ -48,7 +48,7 @@ inline std::vector<uint64_t> symmetries(const uint64_t &x) {
     return r;
 }
 inline int index_table[256][256];
-inline int index(const uint64_t &stm,const uint64_t &opp, const uint64_t &mask) { //gets the index in a lookup table for a given mask
+inline int idx(const uint64_t &stm,const uint64_t &opp, const uint64_t &mask) { //gets the idx in a lookup table for a given mask
     return index_table[_pext_u64(stm,mask)][_pext_u64(opp,mask)];
 }
 inline uint64_t LUT1_MASKS[10];
@@ -148,6 +148,17 @@ inline void generate_LUT_data() { //generates LUT masks
         std::sort(nmasks_sym[i].begin(),nmasks_sym[i].end());
         nmasks_sym[i].erase(std::unique(nmasks_sym[i].begin(),nmasks_sym[i].end()),nmasks_sym[i].end());
     }
+    //ntuple masks arent set
+    for (int n=0;n<10;n++) {LUT1_MASKS[n]=nmasks_sym[0][n];}
+    for (int n=0;n<32;n++) {LUT2_MASKS[n]=nmasks_sym[1][n];}
+    for (int n=0;n<24;n++) {LUT3_MASKS[n]=nmasks_sym[2][n];}
+    for (int n=0;n<31;n++) {LUT4_MASKS[n]=nmasks_sym[3][n];}
+    for (int n=0;n<14;n++) {LUT5_MASKS[n]=nmasks_sym[4][n];}
+    for (int n=0;n<24;n++) {LUT6_MASKS[n]=nmasks_sym[5][n];}
+    for (int n=0;n<6;n++) {LUT7_MASKS[n]=nmasks_sym[6][n];}
+    for (int n=0;n<17;n++) {LUT8_MASKS[n]=nmasks_sym[7][n];}
+
+
     for (int n=0;n<256;n++) {
         for (int m=0;m<256;m++) {
             const int index=
@@ -181,39 +192,40 @@ inline float n_eval(const othello::Position &pos) {
     for (int i=0;i<8;i++) {
         const uint64_t stm=stm_sym[i];
         const uint64_t opp=opp_sym[i];
-        r+=LUT1[0][index(stm,opp,LUT1_MASKS[0])];
-        r+=LUT1[1][index(stm,opp,LUT1_MASKS[1])];
-        r+=LUT1[2][index(stm,opp,LUT1_MASKS[2])];
-        r+=LUT1[3][index(stm,opp,LUT1_MASKS[3])];
-        r+=LUT1[4][index(stm,opp,LUT1_MASKS[4])];
-        r+=LUT1[5][index(stm,opp,LUT1_MASKS[5])];
-        r+=LUT1[6][index(stm,opp,LUT1_MASKS[6])];
-        r+=LUT1[7][index(stm,opp,LUT1_MASKS[7])];
-        r+=LUT1[8][index(stm,opp,LUT1_MASKS[8])];
-        r+=LUT1[9][index(stm,opp,LUT1_MASKS[9])];
-        for (int n=0;n<32;n++) {r+=LUT2[n][index(stm,opp,LUT2_MASKS[n])];}
-        for (int n=0;n<24;n++) {r+=LUT3[n][index(stm,opp,LUT3_MASKS[n])];}
-        for (int n=0;n<31;n++) {r+=LUT4[n][index(stm,opp,LUT4_MASKS[n])];}
-        for (int n=0;n<14;n++) {r+=LUT5[n][index(stm,opp,LUT5_MASKS[n])];}
-        for (int n=0;n<24;n++) {r+=LUT6[n][index(stm,opp,LUT6_MASKS[n])];}
-        r+=LUT7[0][index(stm,opp,LUT7_MASKS[0])];
-        r+=LUT7[1][index(stm,opp,LUT7_MASKS[1])];
-        r+=LUT7[2][index(stm,opp,LUT7_MASKS[2])];
-        r+=LUT7[3][index(stm,opp,LUT7_MASKS[3])];
-        r+=LUT7[4][index(stm,opp,LUT7_MASKS[4])];
-        r+=LUT7[5][index(stm,opp,LUT7_MASKS[5])];
-        for (int n=0;n<17;n++) {r+=LUT8[n][index(stm,opp,LUT8_MASKS[n])];}
+        r+=LUT1[0][idx(stm,opp,LUT1_MASKS[0])];
+        r+=LUT1[1][idx(stm,opp,LUT1_MASKS[1])];
+        r+=LUT1[2][idx(stm,opp,LUT1_MASKS[2])];
+        r+=LUT1[3][idx(stm,opp,LUT1_MASKS[3])];
+        r+=LUT1[4][idx(stm,opp,LUT1_MASKS[4])];
+        r+=LUT1[5][idx(stm,opp,LUT1_MASKS[5])];
+        r+=LUT1[6][idx(stm,opp,LUT1_MASKS[6])];
+        r+=LUT1[7][idx(stm,opp,LUT1_MASKS[7])];
+        r+=LUT1[8][idx(stm,opp,LUT1_MASKS[8])];
+        r+=LUT1[9][idx(stm,opp,LUT1_MASKS[9])];
+        for (int n=0;n<32;n++) {r+=LUT2[n][idx(stm,opp,LUT2_MASKS[n])];}
+        for (int n=0;n<24;n++) {r+=LUT3[n][idx(stm,opp,LUT3_MASKS[n])];}
+        for (int n=0;n<31;n++) {r+=LUT4[n][idx(stm,opp,LUT4_MASKS[n])];}
+        for (int n=0;n<14;n++) {r+=LUT5[n][idx(stm,opp,LUT5_MASKS[n])];}
+        for (int n=0;n<24;n++) {r+=LUT6[n][idx(stm,opp,LUT6_MASKS[n])];}
+        r+=LUT7[0][idx(stm,opp,LUT7_MASKS[0])];
+        r+=LUT7[1][idx(stm,opp,LUT7_MASKS[1])];
+        r+=LUT7[2][idx(stm,opp,LUT7_MASKS[2])];
+        r+=LUT7[3][idx(stm,opp,LUT7_MASKS[3])];
+        r+=LUT7[4][idx(stm,opp,LUT7_MASKS[4])];
+        r+=LUT7[5][idx(stm,opp,LUT7_MASKS[5])];
+        for (int n=0;n<17;n++) {r+=LUT8[n][idx(stm,opp,LUT8_MASKS[n])];}
     }
     return r;
 }
 //train function
 //play game through to the end using eval and random chance
-//getting the affected LUTs is done using the index function
+//getting the affected LUTs is done using the idx function
 
-//like its the opposite of the eval, just index the LUTS and
+//like its the opposite of the eval, just idx the LUTS and
 //add to them instead of taking
-inline void train(const int &games,const int &random_move_chance) {
-     for (int i=0;i<games;i++) {
+inline void train(const int &games,const float &random_move_chance) {
+     for (int s=1;s<=games;s++) {
+         if (s%100==0){std::cout<<"game: "<<s<<"\n";}
         auto pos=othello::Position();
         //gameloop
         while (!pos.is_terminal()) {
@@ -238,43 +250,44 @@ inline void train(const int &games,const int &random_move_chance) {
             const float cur=n_eval(pos);
             float target;
             if (next.is_terminal()) {
-                const int c=othello_engine::stone_count(pos);
+                const int c=othello_engine::stone_count(next)*(!pos.turn()*2-1);
                 if (c>0){target=-1.f;}
                 else if (c<0){target=1.f;}
-                else if (c==0){target=0.f;}
+                else {target=0.f;}
             }
             else {
-                target=-.99f*n_eval(pos);
+                target=-.99f*n_eval(next);
             }
-            float err=target-cur;
+            const float err=target-cur;
+            const float learning_rate=.0001f;
             uint64_t stm_sym[8], opp_sym[8];
             symmetries_fast(pos.side_occ(pos.turn()), stm_sym);
             symmetries_fast(pos.side_occ(!pos.turn()), opp_sym);
             for (int i=0;i<8;i++) {
                 const uint64_t stm=stm_sym[i];
                 const uint64_t opp=opp_sym[i];
-                LUT1[0][index(stm,opp,LUT1_MASKS[0])]+=0.01f*err;
-                LUT1[1][index(stm,opp,LUT1_MASKS[1])]+=0.01f*err;
-                LUT1[2][index(stm,opp,LUT1_MASKS[2])]+=0.01f*err;
-                LUT1[3][index(stm,opp,LUT1_MASKS[3])]+=0.01f*err;
-                LUT1[4][index(stm,opp,LUT1_MASKS[4])]+=0.01f*err;
-                LUT1[5][index(stm,opp,LUT1_MASKS[5])]+=0.01f*err;
-                LUT1[6][index(stm,opp,LUT1_MASKS[6])]+=0.01f*err;
-                LUT1[7][index(stm,opp,LUT1_MASKS[7])]+=0.01f*err;
-                LUT1[8][index(stm,opp,LUT1_MASKS[8])]+=0.01f*err;
-                LUT1[9][index(stm,opp,LUT1_MASKS[9])]+=0.01f*err;
-                for (int n=0;n<32;n++) {LUT2[n][index(stm,opp,LUT2_MASKS[n])]+=0.01f*err;}
-                for (int n=0;n<24;n++) {LUT3[n][index(stm,opp,LUT3_MASKS[n])]+=0.01f*err;}
-                for (int n=0;n<31;n++) {LUT4[n][index(stm,opp,LUT4_MASKS[n])]+=0.01f*err;}
-                for (int n=0;n<14;n++) {LUT5[n][index(stm,opp,LUT5_MASKS[n])]+=0.01f*err;}
-                for (int n=0;n<24;n++) {LUT6[n][index(stm,opp,LUT6_MASKS[n])]+=0.01f*err;}
-                LUT7[0][index(stm,opp,LUT7_MASKS[0])]+=0.01f*err;
-                LUT7[1][index(stm,opp,LUT7_MASKS[1])]+=0.01f*err;
-                LUT7[2][index(stm,opp,LUT7_MASKS[2])]+=0.01f*err;
-                LUT7[3][index(stm,opp,LUT7_MASKS[3])]+=0.01f*err;
-                LUT7[4][index(stm,opp,LUT7_MASKS[4])]+=0.01f*err;
-                LUT7[5][index(stm,opp,LUT7_MASKS[5])]+=0.01f*err;
-                for (int n=0;n<17;n++) {LUT8[n][index(stm,opp,LUT8_MASKS[n])]+=0.01f*err;}
+                LUT1[0][idx(stm,opp,LUT1_MASKS[0])]+=learning_rate*err;
+                LUT1[1][idx(stm,opp,LUT1_MASKS[1])]+=learning_rate*err;
+                LUT1[2][idx(stm,opp,LUT1_MASKS[2])]+=learning_rate*err;
+                LUT1[3][idx(stm,opp,LUT1_MASKS[3])]+=learning_rate*err;
+                LUT1[4][idx(stm,opp,LUT1_MASKS[4])]+=learning_rate*err;
+                LUT1[5][idx(stm,opp,LUT1_MASKS[5])]+=learning_rate*err;
+                LUT1[6][idx(stm,opp,LUT1_MASKS[6])]+=learning_rate*err;
+                LUT1[7][idx(stm,opp,LUT1_MASKS[7])]+=learning_rate*err;
+                LUT1[8][idx(stm,opp,LUT1_MASKS[8])]+=learning_rate*err;
+                LUT1[9][idx(stm,opp,LUT1_MASKS[9])]+=learning_rate*err;
+                for (int n=0;n<32;n++) {LUT2[n][idx(stm,opp,LUT2_MASKS[n])]+=learning_rate*err;}
+                for (int n=0;n<24;n++) {LUT3[n][idx(stm,opp,LUT3_MASKS[n])]+=learning_rate*err;}
+                for (int n=0;n<31;n++) {LUT4[n][idx(stm,opp,LUT4_MASKS[n])]+=learning_rate*err;}
+                for (int n=0;n<14;n++) {LUT5[n][idx(stm,opp,LUT5_MASKS[n])]+=learning_rate*err;}
+                for (int n=0;n<24;n++) {LUT6[n][idx(stm,opp,LUT6_MASKS[n])]+=learning_rate*err;}
+                LUT7[0][idx(stm,opp,LUT7_MASKS[0])]+=learning_rate*err;
+                LUT7[1][idx(stm,opp,LUT7_MASKS[1])]+=learning_rate*err;
+                LUT7[2][idx(stm,opp,LUT7_MASKS[2])]+=learning_rate*err;
+                LUT7[3][idx(stm,opp,LUT7_MASKS[3])]+=learning_rate*err;
+                LUT7[4][idx(stm,opp,LUT7_MASKS[4])]+=learning_rate*err;
+                LUT7[5][idx(stm,opp,LUT7_MASKS[5])]+=learning_rate*err;
+                for (int n=0;n<17;n++) {LUT8[n][idx(stm,opp,LUT8_MASKS[n])]+=learning_rate*err;}
             }
             pos=next;
         }

@@ -251,6 +251,17 @@ namespace othello {
             new_pos.hash^=zobrist_keys[128];
             return new_pos;
         }
+        [[nodiscard]] Position make_move(const std::string &move) {
+            auto moves=legal_moves();
+            for (auto mve:moves) {
+                if (mve.name()==move) {
+                    return make_move(mve);
+                }
+            }
+            return *this;
+
+
+        }
         [[nodiscard]] bool is_terminal() const{
             //if two passes occur in sequence or you have no pieces or the opponenet has no pieces
             //or you have no pseudo moves and the opponent has no pseudo moves its terminal
