@@ -266,31 +266,31 @@ namespace othello {
             return h^zobrist_keys[128]*side_to_move;
         }
         [[nodiscard]] uint64_t get_hash() const{return hash;}
-        [[nodiscard]] uint64_t canonical_hash() const {
-            uint64_t h[7]={0ull};
-            for (int y=0;y<8;y++) {
-                for (int x=0;x<8;x++) {
-                    h[0]^=zobrist_keys[sym_idx[y*8+x][0]]&-!!(1ull<<sym_idx[y*8+x][0]&board[0]);
-                    h[0]^=zobrist_keys[sym_idx[y*8+x][0]+64]&-!!(1ull<<sym_idx[y*8+x][0]&board[1]);
-                    h[1]^=zobrist_keys[sym_idx[y*8+x][1]]&-!!(1ull<<sym_idx[y*8+x][1]&board[0]);
-                    h[1]^=zobrist_keys[sym_idx[y*8+x][1]+64]&-!!(1ull<<sym_idx[y*8+x][1]&board[1]);
-                    h[2]^=zobrist_keys[sym_idx[y*8+x][2]]&-!!(1ull<<sym_idx[y*8+x][2]&board[0]);
-                    h[2]^=zobrist_keys[sym_idx[y*8+x][2]+64]&-!!(1ull<<sym_idx[y*8+x][2]&board[1]);
-                    h[3]^=zobrist_keys[sym_idx[y*8+x][3]]&-!!(1ull<<sym_idx[y*8+x][3]&board[0]);
-                    h[3]^=zobrist_keys[sym_idx[y*8+x][3]+64]&-!!(1ull<<sym_idx[y*8+x][3]&board[1]);
-                    h[4]^=zobrist_keys[sym_idx[y*8+x][4]]&-!!(1ull<<sym_idx[y*8+x][4]&board[0]);
-                    h[4]^=zobrist_keys[sym_idx[y*8+x][4]+64]&-!!(1ull<<sym_idx[y*8+x][4]&board[1]);
-                    h[5]^=zobrist_keys[sym_idx[y*8+x][5]]&-!!(1ull<<sym_idx[y*8+x][5]&board[0]);
-                    h[5]^=zobrist_keys[sym_idx[y*8+x][5]+64]&-!!(1ull<<sym_idx[y*8+x][5]&board[1]);
-                    h[6]^=zobrist_keys[sym_idx[y*8+x][6]]&-!!(1ull<<sym_idx[y*8+x][6]&board[0]);
-                    h[6]^=zobrist_keys[sym_idx[y*8+x][6]+64]&-!!(1ull<<sym_idx[y*8+x][6]&board[1]);
-                }
-            }
-            for(int s=0;s<7;s++) h[s]^=zobrist_keys[128]*side_to_move;
-            uint64_t min_hash=hash;
-            for(int s=0;s<7;s++) min_hash=std::min(min_hash,h[s]);
-            return min_hash;
-        }
+        // //[[nodiscard]] uint64_t canonical_hash() const {
+        //     uint64_t h[7]={0ull};
+        //     for (int y=0;y<8;y++) {
+        //         for (int x=0;x<8;x++) {
+        //             h[0]^=zobrist_keys[sym_idx[y*8+x][0]]&-!!(1ull<<sym_idx[y*8+x][0]&board[0]);
+        //             h[0]^=zobrist_keys[sym_idx[y*8+x][0]+64]&-!!(1ull<<sym_idx[y*8+x][0]&board[1]);
+        //             h[1]^=zobrist_keys[sym_idx[y*8+x][1]]&-!!(1ull<<sym_idx[y*8+x][1]&board[0]);
+        //             h[1]^=zobrist_keys[sym_idx[y*8+x][1]+64]&-!!(1ull<<sym_idx[y*8+x][1]&board[1]);
+        //             h[2]^=zobrist_keys[sym_idx[y*8+x][2]]&-!!(1ull<<sym_idx[y*8+x][2]&board[0]);
+        //             h[2]^=zobrist_keys[sym_idx[y*8+x][2]+64]&-!!(1ull<<sym_idx[y*8+x][2]&board[1]);
+        //             h[3]^=zobrist_keys[sym_idx[y*8+x][3]]&-!!(1ull<<sym_idx[y*8+x][3]&board[0]);
+        //             h[3]^=zobrist_keys[sym_idx[y*8+x][3]+64]&-!!(1ull<<sym_idx[y*8+x][3]&board[1]);
+        //             h[4]^=zobrist_keys[sym_idx[y*8+x][4]]&-!!(1ull<<sym_idx[y*8+x][4]&board[0]);
+        //             h[4]^=zobrist_keys[sym_idx[y*8+x][4]+64]&-!!(1ull<<sym_idx[y*8+x][4]&board[1]);
+        //             h[5]^=zobrist_keys[sym_idx[y*8+x][5]]&-!!(1ull<<sym_idx[y*8+x][5]&board[0]);
+        //             h[5]^=zobrist_keys[sym_idx[y*8+x][5]+64]&-!!(1ull<<sym_idx[y*8+x][5]&board[1]);
+        //             h[6]^=zobrist_keys[sym_idx[y*8+x][6]]&-!!(1ull<<sym_idx[y*8+x][6]&board[0]);
+        //             h[6]^=zobrist_keys[sym_idx[y*8+x][6]+64]&-!!(1ull<<sym_idx[y*8+x][6]&board[1]);
+        //         }
+        //     }
+        //     for(int s=0;s<7;s++) h[s]^=zobrist_keys[128]*side_to_move;
+        //     uint64_t min_hash=hash;
+        //     for(int s=0;s<7;s++) min_hash=std::min(min_hash,h[s]);
+        //     return min_hash;
+        // }
         friend std::ostream &operator<<(std::ostream &stream,const Position &pos) {
             stream<<"\n  1 2 3 4 5 6 7 8";
             for (uint64_t i=0;i<64;i++) {
