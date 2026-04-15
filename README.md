@@ -8,7 +8,7 @@
 
 ### Features:
 - Performant Move Generation
-- Simple HCE Eval Competitive with EDAX
+- Simple HCE Eval
 
 > Design paradigm:
 > Interaction with the move generator should be simple as possible (KISS)
